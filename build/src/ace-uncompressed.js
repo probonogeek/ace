@@ -3337,7 +3337,7 @@ exports.stringTrimLeft = function (string) {
 };
 
 exports.stringTrimRight = function (string) {
-    return string.replace(trimEndRegexp, ''); 
+    return string.replace(trimEndRegexp, '');
 };
 
 exports.copyObject = function(obj) {
@@ -3346,6 +3346,18 @@ exports.copyObject = function(obj) {
         copy[key] = obj[key];
     }
     return copy;
+};
+
+exports.copyArray = function(array){
+
+  var copy = [];
+  for (i in array) {
+    if (array[i] && typeof array[i] == "object") {
+      copy[i] = this.copyObject( array[i] );
+    } else copy[i] = array[i]
+  } return copy;
+
+
 };
 
 exports.arrayToMap = function(arr) {
@@ -3388,7 +3400,7 @@ exports.deferredCall = function(fcn) {
     }
 
     deferred.schedule = deferred;
-    
+
     deferred.call = function() {
         this.cancel();
         fcn();
@@ -3400,7 +3412,7 @@ exports.deferredCall = function(fcn) {
         timer = null;
         return deferred;
     };
-    
+
     return deferred;
 };
 
@@ -13694,11 +13706,12 @@ exports.Marker = Marker;
  *
  * ***** END LICENSE BLOCK ***** */
 
-define('ace/layer/text', ['require', 'exports', 'module' , 'pilot/oop', 'pilot/dom', 'pilot/lang', 'pilot/event_emitter'], function(require, exports, module) {
+define('ace/layer/text', ['require', 'exports', 'module' , 'pilot/oop', 'pilot/dom', 'pilot/lang', 'pilot/useragent', 'pilot/event_emitter'], function(require, exports, module) {
 
 var oop = require("pilot/oop");
 var dom = require("pilot/dom");
 var lang = require("pilot/lang");
+var useragent = require("pilot/useragent");
 var EventEmitter = require("pilot/event_emitter").EventEmitter;
 
 var Text = function(parentEl) {
@@ -13967,6 +13980,9 @@ var Text = function(parentEl) {
                 screenColumn += tabSize - 1;
                 return self.$tabStrings[tabSize];
             } else if (c == "&") {
+              if (useragent.isOldGecko)
+                return "&";
+              else
                 return "&amp";
             } else if (c == "<") {
                 return "&lt;";

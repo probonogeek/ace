@@ -8,8 +8,8 @@
     body {
         overflow: hidden;
     }
-    
-    #editor { 
+
+    #editor {
         margin: 0;
         position: absolute;
         top: 0;
@@ -21,22 +21,35 @@
 </head>
 <body>
 
-<pre id="editor">function foo(items) {
-    var i;
-    for (i = 0; i &lt; items.length; i++) {
-        alert("Ace Rocks " + items[i]);
-    }
-}</pre>
-    
+<pre id="editor">
+&lt;a href="http://reddit.com/submit?url=http://www.pvponline.com/2011/04/28/food-for-thought/&title=Food For Thought" title="Reddit">Reddit&lt;/a>
+&lt;a href="http://digg.com/submit?phase=2&url=http://www.pvponline.com/2011/04/28/food-for-thought/&title=Food For Thought" title="Digg">Digg&lt;/a>
+&lt;a href="http://www.facebook.com/share.php?u=http://www.pvponline.com/2011/04/28/food-for-thought/" title="Facebook">Facebook&lt;/a>
+
+{% list item in folder:"/path/to/folder" %}
+  {{ item.property }}
+{% endlist %}
+
+&lt;style>
+  #id {
+    text-align: center;
+  }
+
+  .class{
+    width: 10px;
+  }
+&lt;/style>
+</pre>
+
 <script src="src/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="src/theme-twilight.js" type="text/javascript" charset="utf-8"></script>
-<script src="src/mode-javascript.js" type="text/javascript" charset="utf-8"></script>
+<script src="src/mode-liquid.js" type="text/javascript" charset="utf-8"></script>
 <script>
 window.onload = function() {
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/twilight");
-    
-    var JavaScriptMode = require("ace/mode/javascript").Mode;
+
+    var JavaScriptMode = require("ace/mode/liquid").Mode;
     editor.getSession().setMode(new JavaScriptMode());
 };
 </script>
